@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %}Search Page{% endblock %}
+{% block content %}
+
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+    ::-webkit-scrollbar{
+        display: none;
+    }
+.main{
+    margin: 80px 20px;
+    height: 100vh;
+    /* overflow: hidden; */
+}
+.grid-cards {
+    height: auto;
+      display: grid;
+      grid-template-columns: auto auto auto;
+      justify-content: space-between;
+      align-content: start;
+      grid-gap: 30px;
+    }
+
+    
+    .grid-cols {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      width: 350px;
+      height: 400px;
+      border-radius: 6px;
+      transition: .3s ease;
+    }
+    .grid-cols:hover{
+      transform: scale(1.02);
+    }
+    .grid-item{
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
+       flex-wrap: nowrap;
+       height: 100%;
+       width: 100%;
+       color: rgb(26, 26, 26);
+      
+    }
+
+    .grid-img {
+      width: 100%;
+      height: 200px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+    
+    .grid-item > p,h6,small {
+          padding:0 20px;
+          color: rgb(15, 15, 15);
+        }
+    
+    .grid-date {
+      border-top: 1px solid rgb(207, 207, 207);
+      padding-bottom: 1rem;
+    }
+    .link-col:hover {
+      text-decoration: none;
+    }
+    .grid-item h6 {
+      text-transform: capitalize;
+      font-weight: bold;
+    }
+    .submit-btn{
+        margin-top: 20px;
+        padding: 8px 20px;
+        background-color: #71bfff;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+    }
+    .cat-drop{
+       
+        margin-top: 20px;
+        
+    }
+
+</style>
+<div class="container ">
+<div class="main">
+    {% if q %}
+    <h1>Posts containing "{{ q }}"
+
+        {% if c %}
+        In category "{{ c }}"
+        {% endif %}
+
+    </h1>
+    <p>
+        {% with results.count as total_results %}
+        Found {{ total_results }} result{{ total_results|pluralize }}
+        {% endwith %}
+    </p>
+
+
+    
+            <div class="grid-cards">
+                {% for post in results %}
+                <div class="grid-cols">
+                    <a class="link-col" href="{{post.get_absolute_url}}">
+                        <div class="grid-item">
+                          <img
+                            class="grid-img"
+                            src="{{post.image.url}}"
+                            alt="{{ post.title }}"
+                          />
+                          <h6>{{post.title|truncatechars:40}}</h6>
+                          <p class="grid-text">{{post.excerpt|truncatechars:40}}</p>
+                         <div class="grid-date"><small >published on: {{post.publish}}</small></div> 
+                        </div>
+                      </a>
+                </div>
+                
+                {% empty %}
+                <p>There are no results for your query.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <p><a href="{% url "blog:post_search" %}" class="btn btn-primary" role="button" aria-disabled="true">New
+            Search</a>
+    </p>
+    {% else %}
+    <div class="main">
+    <h1>Search for Posts</h1>
+    <form class="dropdown" method="get">
+        {% csrf_token %}
+        <div>{{ form.q }}</div>
+
+        <ul class="dropdown-menu col-12 pl-2" role="menu" aria-labelledby="menu" id="list">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+            <div class="dropdown-divider"></div>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+            <div class="dropdown-divider"></div>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+        </ul>
+<div class="cat-drop">
+        {{ form.c }}
+    </div>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+    {% endif %}
+</div>
+</div>
+</div>
+
+<script>
+    $(document).on('keyup', '#id_q', function (e) {
+        e.preventDefault();
+
+        var minlength = 3;
+        var results = [];
+
+        if ($('#id_q').val().length >= minlength) {
+            $.ajax({
+                type: 'POST',
+                url: '{% url "blog:post_search" %}',
+                data: {
+                    ss: $('#id_q').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post'
+                },
+                success: function (json) {
+
+                    $.each(JSON.parse(json.search_string), function (i, item) {
+
+                        results.push('<li class="my-2 pl-2"><a href="/' + item
+                            .fields.slug +
+                            '">' + item.fields.title +
+                            '</a></li>')
+                    })
+
+                    if (!$(".show")[0]) {
+                        $('.menudd').trigger('click')
+                    }
+
+                    document.getElementById("list").innerHTML = (!results.length) ?
+                        "No results match your query" : results.join('');
+                },
+                error: function (xhr, errmsg, err) {}
+            });
+        }
+    })
+</script>
+
+
+
+
+{% endblock %}
