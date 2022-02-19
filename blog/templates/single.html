@@ -2,7 +2,7 @@
 {% block content %}
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
   
 <link
   rel="stylesheet"
@@ -13,11 +13,7 @@
   hljs.highlightAll();
 </script>
 
-
-
-
-
-  <div class="mt-5 single-p">
+  <div class="single-p pt-5">
     <img class="post-img"  src="{{post.image.url}}" alt="{{ post.title }}">
     <div class="post-content">
       
@@ -85,16 +81,12 @@
           {% endif %}
         </nav>
       </div>
-
-      
         <form class="myForm" id="myForm" method="post">
           <h3>Leave a comment</h3>
           {{ comment_form.as_p }}
           {% csrf_token %}
           <button type="submit" class="submit-btn">Submit</button>
         </form>
-    
-
     </div>
   </div>
 
@@ -124,8 +116,6 @@
                 {% csrf_token %} \
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button> \
               </form>');
-
-    //document.querySelector('#id_parentt [value="' + id + '"]').selected = true;
   }
 
   $('#myForm').trigger("reset");

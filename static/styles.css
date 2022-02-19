@@ -1,7 +1,6 @@
 /* base  */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
-
 * {
   margin: 0;
   padding: 0;
@@ -9,97 +8,62 @@
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   color: #3a3a3a;
-
-}
-
-body{
-  background-color:#BFB038;
 }
 
 .nav-logo{
   width: 125px;
   height: 60px;
   object-fit: cover;
-  /* margin-right: 2rem; */
 }
-
-.nav-link {
+.nav-link, .dropdown-item {
   color: #ffffff;
-  font-size: 1.2rem;
-  
+  text-transform: uppercase;
 }
-
 .nav-link:hover {
   color: #BFB038;
   text-decoration: none;
-  font-weight: bold;
 }
-
-.dropdown-item:hover {
-  color: #BFB038;
-  background: #474343;
-}
-.dropdown-item {
-  color: #fff;
-  font-size: 1.2rem;
-}
-.dropdown-menu {
-  background: #474343;
-  border: none;
-}
-span.navbar-toggler-icon{
-  color: #fff;
-
-}
-.footerr {
+.form-control{
   width: 100%;
-  height: 40px;
-  text-align: center;
-  padding: 5px;
-  color: #fff;
-  background-color: #aa3030;
 }
-.footerr p,a{
+.dropdown-item:hover {
+ background-color: #343a40;
+ color: #BFB038;
+}
+.footy {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  padding: 5px 0;
+  
+}
+.footy-p{
+  color: #fff;
+  font-size: 0.8rem;
+ }
+.footy-a{
   color: #fff;
   font-size: 0.8rem;
   text-decoration: none;
   cursor: pointer;
 }
 
-.footer-link:hover {
+.footy-a:hover {
   color: #BFB038;
   text-decoration: none;
 }
 
 /* index page */
-
-
-
-
-
 .shadowy {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.grid-cards {
-  height: auto;
-  display: grid;
-  grid-template-columns: auto auto auto;
-  justify-content: space-between;
-  align-content: center;
-  grid-gap: 30px;
-}
-
 .grid-cols {
-  
   min-height: 400px;
-  
 }
 .grid-cols:hover {
   transform: scale(1.02);
 }
-
-
 .grid-img {
   width: 100%;
   height: 200px;
@@ -107,11 +71,6 @@ span.navbar-toggler-icon{
   border-top-right-radius: 6px;
   border-bottom: 1px solid #afafaf;
 }
-.capt{
-  text-transform: capitalize;
-}
-
-
 .post-date{
   font-size: 0.7rem;
   padding-left: 1rem;
@@ -189,3 +148,7 @@ span.navbar-toggler-icon{
   border: none;
   border-radius: 10px;
 }
+
+
+
+    
